@@ -1,0 +1,2 @@
+1/ public string FirtsName { get; set; } = null!;
+So, in summary, this line of code defines a public property called FirstName of type string with a default value of null!. This means that if you access the FirstName property before assigning a value to it, it will not throw a null reference exception but will return null.

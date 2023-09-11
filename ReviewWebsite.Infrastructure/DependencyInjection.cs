@@ -2,14 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using ReviewWebsite.Application.Common.Interfaces.Authentication;
 using ReviewWebsite.Application.Common.Interfaces.Services;
-using ReviewWebsite.Application.Services.Authentication;
+using ReviewWebsite.Application.Services.Persistence;
 using ReviewWebsite.Infrastructure.Authentication;
+using ReviewWebsite.Infrastructure.Persistence;
 using ReviewWebsite.Infrastructure.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReviewWebsite.Infrastructure
 {
@@ -19,8 +15,9 @@ namespace ReviewWebsite.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager configuration)
         {
             services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
-            services.AddSingleton<IJwtTokenGenerator,JwtTokenGenerator> ();
-            services.AddSingleton<IDateTimeProvider,DateTimeProvider> ();
+            services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+            services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
     }
