@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ReviewWebsite.Domain.Entities;
 
 namespace ReviewWebsite.Application.Common.Interfaces.Authentication
 {
     public interface IJwtTokenGenerator
     {
-        public string GenerateToken(Guid userId, string firstName, string lastName);
+        public string GenerateToken(User user);
     }
 }
