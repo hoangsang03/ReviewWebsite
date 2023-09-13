@@ -55,8 +55,7 @@ namespace ReviewWebsite.Application.Services.Authentication
             // 3.create JWT token
             var token = _jwtTokenGenerator.GenerateToken(user);
 
-            return new AuthenticationResult(user,
-                                            token);
+            return new AuthenticationResult(user, token);
         }
     }
 }

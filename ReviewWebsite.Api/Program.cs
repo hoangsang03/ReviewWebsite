@@ -1,6 +1,7 @@
 
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using ReviewWebsite.Api.Errors;
 using ReviewWebsite.Application;
-using ReviewWebsite.Application.Services.Authentication;
 using ReviewWebsite.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddSingleton<ProblemDetailsFactory, ReviewWebsiteProblemDetailFactory>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -26,6 +28,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler("/error");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
