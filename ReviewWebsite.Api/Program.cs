@@ -1,6 +1,6 @@
 
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using ReviewWebsite.Api.Errors;
+using ReviewWebsite.Api.Common.Errors;
 using ReviewWebsite.Application;
 using ReviewWebsite.Infrastructure;
 

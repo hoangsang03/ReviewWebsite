@@ -1,7 +1,8 @@
-﻿using ReviewWebsite.Application.Common.Interfaces.Authentication;
+﻿using ErrorOr;
+using ReviewWebsite.Application.Common.Interfaces.Authentication;
 using ReviewWebsite.Application.Services.Persistence;
+using ReviewWebsite.Domain.Common.Errors;
 using ReviewWebsite.Domain.Entities;
-
 namespace ReviewWebsite.Application.Services.Authentication
 {
     public class AuthenticationService : IAuthenticationService
@@ -15,17 +16,17 @@ namespace ReviewWebsite.Application.Services.Authentication
             _userRepository = userRepository;
         }
 
-        public AuthenticationResult Login(string email, string password)
+        public ErrorOr<AuthenticationResult> Login(string email, string password)
         {
             // 1. Validate the user exists 
             if (_userRepository.GetUserByEmail(email) is not User user)
             {
-                throw new Exception("User with given email does not exist");
+                return Errors.Authentication.InvalidCredentials;
             }
             // 2. Validate the password is correct 
             if (user.Password != password)
             {
-                throw new Exception("Invalid pasword.");
+                return Errors.Authentication.InvalidCredentials;
             }
             // 3. Create JWT Token 
             var token = _jwtTokenGenerator.GenerateToken(user);
@@ -34,12 +35,12 @@ namespace ReviewWebsite.Application.Services.Authentication
                 token);
         }
 
-        public AuthenticationResult Register(string firstName, string lastName, string email, string password)
+        public ErrorOr<AuthenticationResult> Register(string firstName, string lastName, string email, string password)
         {
             // 1. validate the user doesn't exist
             if (_userRepository.GetUserByEmail(email) is not null)
             {
-                throw new Exception("User with given email already exists");
+                return Errors.User.DuplicateEmail;
             }
             // 2. create user (generate unique id) and persist to DB
             var user = new User()
