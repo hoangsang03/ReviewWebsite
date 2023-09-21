@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ReviewWebsite.Application.Services.Authentication;
+using ReviewWebsite.Application.Services.Authentication.Commands;
+using ReviewWebsite.Application.Services.Authentication.Common;
+using ReviewWebsite.Application.Services.Authentication.Queries;
 using ReviewWebsite.Contracts.Authentication;
 using ReviewWebsite.Domain.Common.Errors;
 
@@ -8,17 +10,21 @@ namespace ReviewWebsite.Api.Controllers
     [Route("auth")]
     public class AuthenticationController : ApiController
     {
-        private readonly IAuthenticationService _authenticationService;
+        private readonly IAuthenticationCommandService _authenticationCommandService;
+        private readonly IAuthenticationQueryService _authenticationQueryService;
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthenticationController(
+            IAuthenticationCommandService authenticationCommandService,
+            IAuthenticationQueryService authenticationQueryService)
         {
-            _authenticationService = authenticationService;
+            _authenticationCommandService = authenticationCommandService;
+            _authenticationQueryService = authenticationQueryService;
         }
 
         [HttpPost("register")]
         public IActionResult Register(RegisterRequest request)
         {
-            ErrorOr.ErrorOr<AuthenticationResult> authResult = _authenticationService.Register(
+            ErrorOr.ErrorOr<AuthenticationResult> authResult = _authenticationCommandService.Register(
                 request.FirstName, request.LastName, request.Email, request.Password);
 
             return authResult.Match(
@@ -38,11 +44,11 @@ namespace ReviewWebsite.Api.Controllers
         [HttpPost("login")]
         public IActionResult Login(LoginRequest request)
         {
-            var authResult = _authenticationService.Login(
+            var authResult = _authenticationQueryService.Login(
                 request.Email,
                 request.Password);
 
-            if (authResult.IsError &&
+            if (!authResult.IsError &&
                 authResult.FirstError == Errors.Authentication.InvalidCredentials)
             {
                 // ControllerBase Problem
