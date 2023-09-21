@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ReviewWebsite.Application.Services.Authentication.Commands;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using ReviewWebsite.Application.Authentication.Commands.Register;
+using ReviewWebsite.Application.Authentication.Queries.Login;
 using ReviewWebsite.Application.Services.Authentication.Common;
-using ReviewWebsite.Application.Services.Authentication.Queries;
 using ReviewWebsite.Contracts.Authentication;
 using ReviewWebsite.Domain.Common.Errors;
 
@@ -10,22 +11,18 @@ namespace ReviewWebsite.Api.Controllers
     [Route("auth")]
     public class AuthenticationController : ApiController
     {
-        private readonly IAuthenticationCommandService _authenticationCommandService;
-        private readonly IAuthenticationQueryService _authenticationQueryService;
+        private readonly ISender _mediator;
 
-        public AuthenticationController(
-            IAuthenticationCommandService authenticationCommandService,
-            IAuthenticationQueryService authenticationQueryService)
+        public AuthenticationController(ISender mediator)
         {
-            _authenticationCommandService = authenticationCommandService;
-            _authenticationQueryService = authenticationQueryService;
+            _mediator = mediator;
         }
 
         [HttpPost("register")]
-        public IActionResult Register(RegisterRequest request)
+        public async Task<IActionResult> RegisterAsync(RegisterRequest request)
         {
-            ErrorOr.ErrorOr<AuthenticationResult> authResult = _authenticationCommandService.Register(
-                request.FirstName, request.LastName, request.Email, request.Password);
+            var command = new RegisterCommand(request.FirstName, request.LastName, request.Email, request.Password);
+            ErrorOr.ErrorOr<AuthenticationResult> authResult = await _mediator.Send(command);
 
             return authResult.Match(
                 authResult => Ok(MapAuthResult(authResult)),
@@ -42,13 +39,12 @@ namespace ReviewWebsite.Api.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(LoginRequest request)
+        public async Task<IActionResult> LoginAsync(LoginRequest request)
         {
-            var authResult = _authenticationQueryService.Login(
-                request.Email,
-                request.Password);
+            var query = new LoginQuery(request.Email, request.Password);
+            var authResult = await _mediator.Send(query);
 
-            if (!authResult.IsError &&
+            if (authResult.IsError &&
                 authResult.FirstError == Errors.Authentication.InvalidCredentials)
             {
                 // ControllerBase Problem

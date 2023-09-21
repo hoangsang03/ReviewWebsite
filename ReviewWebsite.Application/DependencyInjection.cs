@@ -1,6 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using ReviewWebsite.Application.Services.Authentication.Commands;
-using ReviewWebsite.Application.Services.Authentication.Queries;
+﻿using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ReviewWebsite.Application
 {
@@ -9,8 +8,7 @@ namespace ReviewWebsite.Application
         // need install Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddScoped<IAuthenticationCommandService, AuthenticationCommandService>();
-            services.AddScoped<IAuthenticationQueryService, AuthenticationQueryService>();
+            services.AddMediatR(typeof(DependencyInjection).Assembly);
             return services;
         }
     }
