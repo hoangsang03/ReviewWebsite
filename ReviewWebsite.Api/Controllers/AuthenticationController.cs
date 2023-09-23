@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using MapsterMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ReviewWebsite.Application.Authentication.Commands.Register;
+using ReviewWebsite.Application.Authentication.Common;
 using ReviewWebsite.Application.Authentication.Queries.Login;
-using ReviewWebsite.Application.Services.Authentication.Common;
 using ReviewWebsite.Contracts.Authentication;
 using ReviewWebsite.Domain.Common.Errors;
 
@@ -12,37 +13,35 @@ namespace ReviewWebsite.Api.Controllers
     public class AuthenticationController : ApiController
     {
         private readonly ISender _mediator;
+        private readonly IMapper _mapper;
 
-        public AuthenticationController(ISender mediator)
+        public AuthenticationController(
+            ISender mediator,
+            IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync(RegisterRequest request)
         {
-            var command = new RegisterCommand(request.FirstName, request.LastName, request.Email, request.Password);
+            var command = _mapper.Map<RegisterCommand>(request);
             ErrorOr.ErrorOr<AuthenticationResult> authResult = await _mediator.Send(command);
 
-            return authResult.Match(
-                authResult => Ok(MapAuthResult(authResult)),
+            var response = authResult.Match(
+                authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
                 errors => Problem(errors));
+
+            return response;
         }
 
-        private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
-        {
-            return new(authResult.User.Id,
-                authResult.User.FirstName,
-                authResult.User.LastName,
-                authResult.User.Email,
-                authResult.Token);
-        }
 
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync(LoginRequest request)
         {
-            var query = new LoginQuery(request.Email, request.Password);
-            var authResult = await _mediator.Send(query);
+            var query = _mapper.Map<LoginQuery>(request);
+            ErrorOr.ErrorOr<AuthenticationResult> authResult = await _mediator.Send(query);
 
             if (authResult.IsError &&
                 authResult.FirstError == Errors.Authentication.InvalidCredentials)
@@ -55,9 +54,8 @@ namespace ReviewWebsite.Api.Controllers
 
             // ApiController Problem (has errorCodes)
             return authResult.Match(
-                authResult => Ok(MapAuthResult(authResult)),
+                authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
                 errors => Problem(errors));
-
         }
     }
 }

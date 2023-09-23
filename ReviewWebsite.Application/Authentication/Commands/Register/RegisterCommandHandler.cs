@@ -1,8 +1,8 @@
 ﻿using ErrorOr;
 using MediatR;
+using ReviewWebsite.Application.Authentication.Common;
 using ReviewWebsite.Application.Common.Interfaces.Authentication;
-using ReviewWebsite.Application.Services.Authentication.Common;
-using ReviewWebsite.Application.Services.Persistence;
+using ReviewWebsite.Application.Common.Interfaces.Persistence;
 using ReviewWebsite.Domain.Common.Errors;
 using ReviewWebsite.Domain.Entities;
 
@@ -21,6 +21,7 @@ namespace ReviewWebsite.Application.Authentication.Commands.Register
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
         {
+            await Task.CompletedTask;
             // 1. validate the user doesn't exist
             if (_userRepository.GetUserByEmail(command.Email) is not null)
             {

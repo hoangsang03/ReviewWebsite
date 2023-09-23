@@ -1,4 +1,4 @@
-﻿using ReviewWebsite.Application.Services.Persistence;
+﻿using ReviewWebsite.Application.Common.Interfaces.Persistence;
 using ReviewWebsite.Domain.Entities;
 
 namespace ReviewWebsite.Infrastructure.Persistence

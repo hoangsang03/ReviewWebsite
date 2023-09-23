@@ -15,12 +15,6 @@
     <ProjectReference Include="..\ReviewWebsite.Domain\ReviewWebsite.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Services\Authentication\Commands\IAuthenticationCommandService.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>

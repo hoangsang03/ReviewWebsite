@@ -1,14 +1,14 @@
 ﻿using ErrorOr;
 using MediatR;
+using ReviewWebsite.Application.Authentication.Common;
 using ReviewWebsite.Application.Common.Interfaces.Authentication;
-using ReviewWebsite.Application.Services.Authentication.Common;
-using ReviewWebsite.Application.Services.Persistence;
+using ReviewWebsite.Application.Common.Interfaces.Persistence;
 using ReviewWebsite.Domain.Common.Errors;
 using ReviewWebsite.Domain.Entities;
 
 namespace ReviewWebsite.Application.Authentication.Queries.Login
 {
-    internal class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
+    public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
     {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IUserRepository _userRepository;
@@ -25,6 +25,7 @@ namespace ReviewWebsite.Application.Authentication.Queries.Login
             LoginQuery query,
             CancellationToken cancellationToken)
         {
+            await Task.CompletedTask;
             // 1. Validate the user exists 
             if (_userRepository.GetUserByEmail(query.Email) is not User user)
             {

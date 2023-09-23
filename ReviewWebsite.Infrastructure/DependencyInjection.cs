@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ReviewWebsite.Application.Common.Interfaces.Authentication;
+using ReviewWebsite.Application.Common.Interfaces.Persistence;
 using ReviewWebsite.Application.Common.Interfaces.Services;
-using ReviewWebsite.Application.Services.Persistence;
 using ReviewWebsite.Infrastructure.Authentication;
 using ReviewWebsite.Infrastructure.Persistence;
 using ReviewWebsite.Infrastructure.Services;
