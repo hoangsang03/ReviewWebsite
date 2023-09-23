@@ -1,6 +1,6 @@
 ﻿using ErrorOr;
 using MediatR;
-using ReviewWebsite.Application.Services.Authentication.Common;
+using ReviewWebsite.Application.Authentication.Common;
 
 namespace ReviewWebsite.Application.Authentication.Queries.Login
 {

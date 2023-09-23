@@ -1,6 +1,4 @@
-
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using ReviewWebsite.Api.Common.Errors;
+using ReviewWebsite.Api;
 using ReviewWebsite.Application;
 using ReviewWebsite.Infrastructure;
 
@@ -8,13 +6,13 @@ var builder = WebApplication.CreateBuilder(args);
 {
     // Dependency Injection
     builder.Services
+        .AddPresentation()
         .AddApplication()
         .AddInfrastructure(builder.Configuration);
 }
 // Add services to the container.
 
-builder.Services.AddControllers();
-builder.Services.AddSingleton<ProblemDetailsFactory, ReviewWebsiteProblemDetailFactory>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReviewWebsite.Application.Services.Persistence
+namespace ReviewWebsite.Application.Common.Interfaces.Persistence
 {
     public interface IUserRepository
     {
-        User? GetUserByEmail (string email);
-        void Add (User user);
+        User? GetUserByEmail(string email);
+        void Add(User user);
     }
 }
