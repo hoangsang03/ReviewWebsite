@@ -19,6 +19,7 @@ namespace ReviewWebsite.Api.Controllers
                 ErrorType.Validation => StatusCodes.Status400BadRequest,
                 _ => StatusCodes.Status500InternalServerError
             };
+            // call ReviewWebsiteProblemDetailFactory.CreateProblemDetails()
             return Problem(statusCode: statusCode, title: firstError.Description);
         }
     }
