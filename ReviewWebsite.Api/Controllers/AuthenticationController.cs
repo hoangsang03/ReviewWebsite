@@ -1,5 +1,6 @@
 ﻿using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReviewWebsite.Application.Authentication.Commands.Register;
 using ReviewWebsite.Application.Authentication.Common;
@@ -10,6 +11,7 @@ using ReviewWebsite.Domain.Common.Errors;
 namespace ReviewWebsite.Api.Controllers
 {
     [Route("auth")]
+    [AllowAnonymous]
     public class AuthenticationController : ApiController
     {
         private readonly ISender _mediator;
