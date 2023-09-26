@@ -61,9 +61,38 @@ namespace ReviewWebsite.Api.Common.Errors
             }
         }
 
-        public override ValidationProblemDetails CreateValidationProblemDetails(HttpContext httpContext, ModelStateDictionary modelStateDictionary, int? statusCode = null, string? title = null, string? type = null, string? detail = null, string? instance = null)
+        public override ValidationProblemDetails CreateValidationProblemDetails(
+            HttpContext httpContext,
+            ModelStateDictionary modelStateDictionary,
+            int? statusCode = null,
+            string? title = null,
+            string? type = null,
+            string? detail = null,
+            string? instance = null)
         {
-            throw new NotImplementedException();
+            statusCode ??= StatusCodes.Status400BadRequest;
+
+            var validationProblemDetails = new ValidationProblemDetails(modelStateDictionary)
+            {
+                Status = statusCode,
+                Type = type,
+                Detail = detail,
+                Instance = instance,
+            };
+
+            if (title is not null)
+            {
+                validationProblemDetails.Title = title;
+            }
+
+            AddCustomProperties(validationProblemDetails);
+
+            return validationProblemDetails;
+        }
+
+        private static void AddCustomProperties(ProblemDetails problemDetails)
+        {
+            problemDetails.Extensions.Add("myCustomProperty", "myCustomPropertyValue");
         }
     }
 }
