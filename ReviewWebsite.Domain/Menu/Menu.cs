@@ -1,6 +1,7 @@
 using ReviewWebsite.Domain.Common.Models;
 using ReviewWebsite.Domain.Common.ValueObjects;
 using ReviewWebsite.Domain.Dinner.ValueObjects;
+using ReviewWebsite.Domain.Guest.ValueObjects;
 using ReviewWebsite.Domain.Host.ValueObjects;
 using ReviewWebsite.Domain.Menu.Entities;
 using ReviewWebsite.Domain.Menu.ValueObjects;
