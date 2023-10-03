@@ -1,6 +1,6 @@
 ﻿using ReviewWebsite.Domain.Common.Models;
 
-namespace ReviewWebsite.Domain.Bill.ValueObjects
+namespace ReviewWebsite.Domain.Common.ValueObjects
 {
     public class Price : ValueObject
     {
