@@ -8,6 +8,8 @@ namespace ReviewWebsite.Domain.Dinner
 {
     public class Dinner : AggregateRoot<DinnerId>
     {
+        private readonly List<ReservationId> _reservationIds = new();
+
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime StartDateTime { get; set; }
@@ -15,16 +17,16 @@ namespace ReviewWebsite.Domain.Dinner
         public DateTime StartedDateTime { get; set; }
         public DateTime EndedDateTime { get; set; }
         public DinnerStatus Status { get; set; }
-        public bool IsPublic { get; set; }  
+        public bool IsPublic { get; set; }
         public int MaxGuest { get; set; }
         public Price Price { get; set; }
         public HostId HostId { get; set; }
         public MenuId MenuId { get; set; }
         public string ImageUrl { get; set; }
         public Location Location { get; set; }
-        // public Reservation Reservations {get; set;}
+        public IReadOnlyList<ReservationId> ReservationIds => _reservationIds.AsReadOnly();
         public DateTime CreatedDateTime { get; set; }
-        public DateTime UpdatedDateTime { get; set;}
+        public DateTime UpdatedDateTime { get; set; }
 
         private Dinner(
             DinnerId dinnerId,
@@ -58,7 +60,7 @@ namespace ReviewWebsite.Domain.Dinner
             CreatedDateTime = createdDateTime;
             UpdatedDateTime = updatedDateTime;
         }
-        
+
         public Dinner Create(
             string name,
             string description,

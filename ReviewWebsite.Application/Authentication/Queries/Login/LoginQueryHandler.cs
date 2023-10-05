@@ -4,7 +4,7 @@ using ReviewWebsite.Application.Authentication.Common;
 using ReviewWebsite.Application.Common.Interfaces.Authentication;
 using ReviewWebsite.Application.Common.Interfaces.Persistence;
 using ReviewWebsite.Domain.Common.Errors;
-using ReviewWebsite.Domain.Entities;
+using ReviewWebsite.Domain.User;
 
 namespace ReviewWebsite.Application.Authentication.Queries.Login
 {

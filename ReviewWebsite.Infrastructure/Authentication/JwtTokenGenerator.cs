@@ -2,7 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using ReviewWebsite.Application.Common.Interfaces.Authentication;
 using ReviewWebsite.Application.Common.Interfaces.Services;
-using ReviewWebsite.Domain.Entities;
+using ReviewWebsite.Domain.User;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -29,7 +29,7 @@ namespace ReviewWebsite.Infrastructure.Authentication
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.Value.ToString()),
                 new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
                 new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

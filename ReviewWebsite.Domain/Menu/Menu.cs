@@ -6,6 +6,7 @@ using ReviewWebsite.Domain.Host.ValueObjects;
 using ReviewWebsite.Domain.Menu.Entities;
 using ReviewWebsite.Domain.Menu.ValueObjects;
 using ReviewWebsite.Domain.MenuReview.ValueObjects;
+using ReviewWebsite.Domain.User.ValueObjects;
 
 namespace ReviewWebsite.Domain.Menu
 {
