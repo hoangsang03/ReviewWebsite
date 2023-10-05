@@ -1,4 +1,4 @@
-﻿using ReviewWebsite.Domain.Entities;
+﻿using ReviewWebsite.Domain.User;
 
 namespace ReviewWebsite.Application.Common.Interfaces.Authentication
 {

@@ -4,7 +4,7 @@ using ReviewWebsite.Application.Authentication.Common;
 using ReviewWebsite.Application.Common.Interfaces.Authentication;
 using ReviewWebsite.Application.Common.Interfaces.Persistence;
 using ReviewWebsite.Domain.Common.Errors;
-using ReviewWebsite.Domain.Entities;
+using ReviewWebsite.Domain.User;
 
 namespace ReviewWebsite.Application.Authentication.Commands.Register
 {
@@ -28,13 +28,11 @@ namespace ReviewWebsite.Application.Authentication.Commands.Register
                 return Errors.User.DuplicateEmail;
             }
             // 2. create user (generate unique id) and persist to DB
-            var user = new User()
-            {
-                FirstName = command.FirstName,
-                LastName = command.LastName,
-                Email = command.Email,
-                Password = command.Password
-            };
+            var user = User.Create(
+                command.FirstName,
+                command.LastName,
+                command.Email,
+                command.Password);
 
             _userRepository.Add(user);
 

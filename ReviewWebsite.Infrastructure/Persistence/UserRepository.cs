@@ -1,5 +1,5 @@
 ﻿using ReviewWebsite.Application.Common.Interfaces.Persistence;
-using ReviewWebsite.Domain.Entities;
+using ReviewWebsite.Domain.User;
 
 namespace ReviewWebsite.Infrastructure.Persistence
 {
