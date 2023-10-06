@@ -1,24 +1,29 @@
-﻿using ReviewWebsite.Domain.Common.Models;
+using ReviewWebsite.Domain.Common.Models;
 
 namespace ReviewWebsite.Domain.Host.ValueObjects
 {
     public sealed class HostId : ValueObject
     {
-        public Guid Value { get; }
+        public string Value { get; }
 
-        private HostId(Guid value)
+        private HostId(string value)
         {
             Value = value;
         }
 
         public static HostId CreateUnique()
         {
-            return new HostId(Guid.NewGuid());
+            return new HostId(Guid.NewGuid().ToString());
         }
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Value;
+        }
+
+        public static HostId Create(string hostId)
+        {
+            return new HostId(hostId);
         }
     }
 }

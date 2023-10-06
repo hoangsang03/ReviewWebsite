@@ -1,18 +1,16 @@
 using ReviewWebsite.Domain.Common.Models;
 using ReviewWebsite.Domain.Common.ValueObjects;
 using ReviewWebsite.Domain.Dinner.ValueObjects;
-using ReviewWebsite.Domain.Guest.ValueObjects;
 using ReviewWebsite.Domain.Host.ValueObjects;
 using ReviewWebsite.Domain.Menu.Entities;
 using ReviewWebsite.Domain.Menu.ValueObjects;
 using ReviewWebsite.Domain.MenuReview.ValueObjects;
-using ReviewWebsite.Domain.User.ValueObjects;
 
 namespace ReviewWebsite.Domain.Menu
 {
     public sealed class Menu : AggregateRoot<MenuId>
     {
-        private readonly List<MenuSection> _section = new();
+        private readonly List<MenuSection>? _section = new();
         private readonly List<DinnerId> _dinnerIds = new();
         private readonly List<MenuReviewId> _menuReviewIds = new();
 
@@ -28,26 +26,36 @@ namespace ReviewWebsite.Domain.Menu
 
         private Menu(
             MenuId menuId,
+            HostId hostId,
             string name,
             string description,
-            HostId hostId,
+            AverageRating averageRating,
+            List<MenuSection>? menuSections,
             DateTime createdDateTime,
             DateTime updatedDateTime) : base(menuId)
         {
             Name = name;
             Description = description;
             HostId = hostId;
+            AverageRating = averageRating;
+            _section = menuSections;
             CreatedDateTime = createdDateTime;
             UpdatedDateTime = updatedDateTime;
         }
 
-        public static Menu Create(string name, string description, HostId hostId)
+        public static Menu Create(
+            HostId hostId,
+            string name,
+            string description,
+            List<MenuSection>? sections)
         {
             return new Menu(
                 MenuId.CreateUnique(),
+                hostId,
                 name,
                 description,
-                hostId,
+                AverageRating.CreateNew(0, 0),
+                sections,
                 DateTime.UtcNow,
                 DateTime.UtcNow);
         }
