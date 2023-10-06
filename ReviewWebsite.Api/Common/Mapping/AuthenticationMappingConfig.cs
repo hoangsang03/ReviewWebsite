@@ -1,4 +1,4 @@
-﻿using Mapster;
+using Mapster;
 using ReviewWebsite.Application.Authentication.Commands.Register;
 using ReviewWebsite.Application.Authentication.Common;
 using ReviewWebsite.Application.Authentication.Queries.Login;
@@ -13,6 +13,7 @@ namespace ReviewWebsite.Api.Common.Mapping
             config.NewConfig<LoginRequest, LoginQuery>();
             config.NewConfig<RegisterRequest, RegisterCommand>();
             config.NewConfig<AuthenticationResult, AuthenticationResponse>()
+                .Map(dest => dest.Id, src => src.User.Id.Value)
                 .Map(dest => dest, src => src.User);
         }
     }

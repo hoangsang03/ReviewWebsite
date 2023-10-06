@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -20,10 +20,16 @@ namespace ReviewWebsite.Infrastructure
             this IServiceCollection services,
             ConfigurationManager configuration)
         {
-            services.AddAuth(configuration);
+            services.AddAuth(configuration)
+                    .AddPersistance();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-            services.AddScoped<IUserRepository, UserRepository>();
             return services;
+        }
+
+        public static void AddPersistance(this IServiceCollection services)
+        {
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IMenuRepository, MenuRepository>();
         }
 
         public static IServiceCollection AddAuth(
