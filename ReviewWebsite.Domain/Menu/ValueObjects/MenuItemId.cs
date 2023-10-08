@@ -1,4 +1,4 @@
-﻿using ReviewWebsite.Domain.Common.Models;
+using ReviewWebsite.Domain.Common.Models;
 
 namespace ReviewWebsite.Domain.Menu.ValueObjects
 {
@@ -14,6 +14,11 @@ namespace ReviewWebsite.Domain.Menu.ValueObjects
         public static MenuItemId CreateUnique()
         {
             return new MenuItemId(Guid.NewGuid());
+        }
+
+        public static MenuItemId Create(Guid value)
+        {
+            return new MenuItemId(value);
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

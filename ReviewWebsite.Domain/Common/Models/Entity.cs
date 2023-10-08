@@ -1,5 +1,3 @@
-﻿using System.Linq.Expressions;
-
 namespace ReviewWebsite.Domain.Common.Models
 {
 #pragma warning disable S4035 // Classes implementing "IEquatable<T>" should be sealed
@@ -7,11 +5,7 @@ namespace ReviewWebsite.Domain.Common.Models
 #pragma warning restore S4035 // Classes implementing "IEquatable<T>" should be sealed
         where TId : notnull
     {
-        public TId Id { get; set; }
-
-        public Type ElementType => throw new NotImplementedException();
-
-        public Expression Expression => throw new NotImplementedException();
+        public TId Id { get; private set; }
 
         public IQueryProvider Provider => throw new NotImplementedException();
 
@@ -60,5 +54,13 @@ namespace ReviewWebsite.Domain.Common.Models
         {
             return Id.GetHashCode();
         }
+
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        protected Entity()
+        {
+
+        }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     }
 }

@@ -10,19 +10,19 @@ namespace ReviewWebsite.Domain.Menu
 {
     public sealed class Menu : AggregateRoot<MenuId>
     {
-        private readonly List<MenuSection>? _section = new();
+        private readonly List<MenuSection> _sections = new();
         private readonly List<DinnerId> _dinnerIds = new();
         private readonly List<MenuReviewId> _menuReviewIds = new();
 
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public AverageRating AverageRating { get; set; }
-        public IReadOnlyList<MenuSection> Sections => _section.AsReadOnly();
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public AverageRating AverageRating { get; private set; }
+        public IReadOnlyList<MenuSection> Sections => _sections.AsReadOnly();
         public HostId HostId { get; }
         public IReadOnlyList<DinnerId> DinnerIds => _dinnerIds.AsReadOnly();
         public IReadOnlyList<MenuReviewId> MenuReviewIds => _menuReviewIds.AsReadOnly();
-        public DateTime CreatedDateTime { get; }
-        public DateTime UpdatedDateTime { get; }
+        public DateTime CreatedDateTime { get; private set; }
+        public DateTime UpdatedDateTime { get; private set; }
 
         private Menu(
             MenuId menuId,
@@ -30,7 +30,7 @@ namespace ReviewWebsite.Domain.Menu
             string name,
             string description,
             AverageRating averageRating,
-            List<MenuSection>? menuSections,
+            List<MenuSection> sections,
             DateTime createdDateTime,
             DateTime updatedDateTime) : base(menuId)
         {
@@ -38,7 +38,7 @@ namespace ReviewWebsite.Domain.Menu
             Description = description;
             HostId = hostId;
             AverageRating = averageRating;
-            _section = menuSections;
+            _sections = sections;
             CreatedDateTime = createdDateTime;
             UpdatedDateTime = updatedDateTime;
         }
@@ -47,7 +47,7 @@ namespace ReviewWebsite.Domain.Menu
             HostId hostId,
             string name,
             string description,
-            List<MenuSection>? sections)
+            List<MenuSection> sections)
         {
             return new Menu(
                 MenuId.CreateUnique(),
@@ -58,6 +58,12 @@ namespace ReviewWebsite.Domain.Menu
                 sections,
                 DateTime.UtcNow,
                 DateTime.UtcNow);
+        }
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        private Menu()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        {
         }
     }
 }

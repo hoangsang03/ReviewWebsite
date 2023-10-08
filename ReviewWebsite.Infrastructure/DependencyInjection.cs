@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -8,6 +9,7 @@ using ReviewWebsite.Application.Common.Interfaces.Persistence;
 using ReviewWebsite.Application.Common.Interfaces.Services;
 using ReviewWebsite.Infrastructure.Authentication;
 using ReviewWebsite.Infrastructure.Persistence;
+using ReviewWebsite.Infrastructure.Persistence.Repositories;
 using ReviewWebsite.Infrastructure.Services;
 using System.Text;
 
@@ -28,6 +30,8 @@ namespace ReviewWebsite.Infrastructure
 
         public static void AddPersistance(this IServiceCollection services)
         {
+            services.AddDbContext<ReviewWebsiteContext>(
+                options => options.UseSqlServer());
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMenuRepository, MenuRepository>();
         }

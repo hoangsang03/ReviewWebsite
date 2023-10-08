@@ -1,0 +1,15 @@
+1. backing fields must convention name of property
+link : https://learn.microsoft.com/en-us/ef/core/modeling/backing-field?tabs=data-annotations
+Ex. In Menu.cs 
+backing field is _sections => property is Sections
+
+2. the way to add migration: 
+dotnet ef migrations add InitialCreate -p .\ReviewWebsite.Infrastructure\ -s .\ReviewWebsite.Api\
+
+3. list all tool
+dotnet tool list --global
+
+4. install dotnet-ef if it is not available
+dotnet tool install --global dotnet-ef
+
+5. any entity must have private constructor with no argument and private set for properties
